@@ -21,15 +21,21 @@ body {
   background: white;
   padding: 40px;
   border-radius: 22px;
-  box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
   text-align: center;
   width: 340px;
   position: relative;
   z-index: 2;
 }
 
-h1 { color: #e63946; }
-p { color: #444; font-size: 18px; }
+h1 {
+  color: #e63946;
+}
+
+p {
+  color: #444;
+  font-size: 18px;
+}
 
 .buttons {
   margin-top: 30px;
@@ -38,7 +44,7 @@ p { color: #444; font-size: 18px; }
 }
 
 button {
-  padding: 14px 26px;
+  padding: 14px 28px;
   font-size: 17px;
   border: none;
   border-radius: 40px;
@@ -80,8 +86,11 @@ button {
 <body>
 
 <div class="card">
-  <h1> Cookie ♥️ Will You Be My Valentine? 💘</h1>
-  <p>You already know the answer 😌</p>
+  <!-- 🔴 CHANGE NAME HERE -->
+  <h1>Hey Sarah 💕<br>Will You Be My Valentine?</h1>
+
+  <!-- 🔴 CHANGE MESSAGE HERE -->
+  <p>You make my world brighter every day 💖</p>
 
   <div class="buttons" id="area">
     <button id="yes">Yes 💖</button>
@@ -89,11 +98,19 @@ button {
   </div>
 </div>
 
+<!-- 🎵 BACKGROUND MUSIC (upload this file to GitHub) -->
+<audio id="bgMusic" loop>
+  <!-- 🔴 CHANGE MUSIC FILE NAME HERE -->
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 const noBtn = document.getElementById("no");
 const area = document.getElementById("area");
 const yesBtn = document.getElementById("yes");
+const music = document.getElementById("bgMusic");
 
+// NO button runs away from finger
 area.addEventListener("touchmove", moveAway, { passive: true });
 area.addEventListener("mousemove", moveAway);
 
@@ -108,14 +125,14 @@ function moveAway(e) {
     y - (noRect.top + noRect.height / 2)
   );
 
-  if (distance < 80) {
+  if (distance < 90) {
     const maxX = rect.width - noBtn.offsetWidth;
     const maxY = rect.height - noBtn.offsetHeight;
 
     let nx = Math.random() * maxX;
     let ny = Math.random() * maxY;
 
-    // Keep away from YES
+    // keep NO away from YES
     if (nx < 140) nx = 160;
 
     noBtn.style.left = nx + "px";
@@ -123,11 +140,16 @@ function moveAway(e) {
   }
 }
 
+// YES button action
 yesBtn.addEventListener("click", () => {
-  createHearts(30);
-  setTimeout(() => alert("YAY!!! 💕 I knew it 😍"), 200);
+  music.play();           // start music (iPhone safe)
+  createHearts(35);
+  setTimeout(() => {
+    alert("YAY!!! 💕 I knew it 😍");
+  }, 300);
 });
 
+// Floating hearts
 function createHearts(count) {
   for (let i = 0; i < count; i++) {
     const heart = document.createElement("div");
