@@ -1,1 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💖</title>
+
+<style>
+body {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 22px;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+  text-align: center;
+  width: 340px;
+  position: relative;
+  z-index: 2;
+}
+
+h1 {
+  color: #e63946;
+}
+
+p {
+  color: #444;
+  font-size: 18px;
+}
+
+.buttons {
+  margin-top: 30px;
+  position: relative;
+  height: 110px;
+}
+
+button {
+  padding: 14px 28px;
+  font-size: 17px;
+  border: none;
+  border-radius: 40px;
+  position: absolute;
+  cursor: pointer;
+  user-select: none;
+}
+
+#yes {
+  background: linear-gradient(45deg, #e63946, #ff6b81);
+  color: white;
+  left: 40px;
+  z-index: 10;
+}
+
+#no {
+  background: #ced4da;
+  color: #333;
+  left: 200px;
+}
+
+/* Floating hearts */
+.heart {
+  position: fixed;
+  bottom: -20px;
+  font-size: 24px;
+  animation: floatUp linear forwards;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0% { opacity: 0; transform: translateY(0) scale(1); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-110vh) scale(1.6); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <!-- 🔴 CHANGE NAME HERE -->
+  <h1>Hey cookie 💕<br>Will You Be My Valentine?</h1>
+
+  <!-- 🔴 CHANGE MESSAGE HERE -->
+  <p>You make my world brighter every day 💖</p>
+
+  <div class="buttons" id="area">
+    <button id="yes">Yes 💖</button>
+    <button id="no">No 😅</button>
+  </div>
+</div>
+
+<!-- 🎵 BACKGROUND MUSIC (upload this file to GitHub) -->
+<audio id="bgMusic" loop>
+  <!-- 🔴 CHANGE MUSIC FILE NAME HERE -->
+  <source src="Picture This - Addicted To You" type="audio/mpeg">
+</audio>
+
+<script>
+const noBtn = document.getElementById("no");
+const area = document.getElementById("area");
+const yesBtn = document.getElementById("yes");
+const music = document.getElementById("bgMusic");
+
+// NO button runs away from finger
+area.addEventListener("touchmove", moveAway, { passive: true });
+area.addEventListener("mousemove", moveAway);
+
+function moveAway(e) {
+  const rect = area.getBoundingClientRect();
+  const x = e.touches ? e.touches[0].clientX : e.clientX;
+  const y = e.touches ? e.touches[0].clientY : e.clientY;
+
+  const noRect = noBtn.getBoundingClientRect();
+  const distance = Math.hypot(
+    x - (noRect.left + noRect.width / 2),
+    y - (noRect.top + noRect.height / 2)
+  );
+
+  if (distance < 90) {
+    const maxX = rect.width - noBtn.offsetWidth;
+    const maxY = rect.height - noBtn.offsetHeight;
+
+    let nx = Math.random() * maxX;
+    let ny = Math.random() * maxY;
+
+    // keep NO away from YES
+    if (nx < 140) nx = 160;
+
+    noBtn.style.left = nx + "px";
+    noBtn.style.top = ny + "px";
+  }
+}
+
+// YES button action
+yesBtn.addEventListener("click", () => {
+  music.play();           // start music (iPhone safe)
+  createHearts(35);
+  setTimeout(() => {
+    alert("YAY!!! 💕 I knew it 😍");
+  }, 300);
+});
+
+// Floating hearts
+function createHearts(count) {
+  for (let i = 0; i < count; i++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.textContent = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+}
+</script>
+
+</body>
+</html>
 
